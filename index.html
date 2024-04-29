@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Short Link Generator</title>
+  </head>
+  <body>
+    <h1>Short Link Generator</h1>
+    <input type="text" id="originalUrl" placeholder="Masukkan URL Asli" />
+    <input type="text" id="customName" placeholder="Masukkan Nama Link Baru" />
+    <button onclick="generateShortLink()">Generate Short Link</button>
+    <p id="shortLink"></p>
+
+    <script>
+      function generateShortLink() {
+        var originalUrl = document.getElementById("originalUrl").value;
+        var customName = document.getElementById("customName").value;
+        // Lakukan validasi URL
+        if (isValidURL(originalUrl)) {
+          if (customName.trim() !== "") {
+            var shortLink = "davdigi/" + customName; // Buat short link dengan nama yang telah dimasukkan
+            var shortLinkElement = document.getElementById("shortLink");
+            shortLinkElement.innerHTML = ""; // Kosongkan isi elemen sebelum menambahkan link baru
+            var link = document.createElement("a");
+            link.href = originalUrl;
+            link.textContent = shortLink;
+            link.target = "_blank"; // Buka link di tab baru
+            shortLinkElement.appendChild(link);
+          } else {
+            alert("Masukkan nama untuk link baru.");
+          }
+        } else {
+          alert("URL tidak valid. Harap masukkan URL yang benar.");
+        }
+      }
+
+      function isValidURL(url) {
+        // Lakukan validasi URL, bisa menggunakan ekspresi reguler atau pustaka JavaScript khusus
+        // Contoh ekspresi reguler sederhana
+        var pattern = new RegExp(
+          "^(https?:\\/\\/)?" + // protocol
+            "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+            "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+            "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+            "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+            "(\\#[-a-z\\d_]*)?$",
+          "i"
+        ); // fragment locator
+        return pattern.test(url);
+      }
+    </script>
+  </body>
+</html>
